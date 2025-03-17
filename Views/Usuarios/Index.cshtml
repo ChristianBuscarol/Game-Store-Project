@@ -1,0 +1,115 @@
+﻿@*IEnumerable<Videogames_Store.Models.Usuario>*@
+@model X.PagedList.IPagedList<Videogames_Store.Models.Usuario>
+@using X.PagedList.Mvc.Core
+
+@*ViewData["Title"] = "Index";*@
+
+<div class="pagedListContainer">
+    <h1>Listado de usuarios...</h1>
+
+    <form asp-controller="Usuarios" asp-action="Index" method="get">
+        <input type="text" name="userSearch" id="idtUserSearh" placeholder="Ingrese 'Dato' del usuario..." />
+        <label for="userAtributeSelection">
+            Elije una atributo del usuario (Para buscar):
+            <select name="userAtributeSelection">
+                <option value=1 selected>Nombre</option>
+                <option value=2>Apellido</option>
+                <option value=3>Dni</option>
+            </select>
+        </label>
+        <button type="submit" value="Busqueda" class="btnBusqueda">Buscar...</button>
+    </form>
+
+    <p>
+        <a asp-action="Create">Create new 'User account'...</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre:</th>
+                <th>Apellido:</th>
+                <th>Dni:</th>
+                <th>Imagen:</th>
+                <th>Email:</th>
+                <th>Código de area:</th>
+                <th>Núemro de telefono:</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Apellido)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Dni)</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.Imagen))
+                        {
+                            <img src="~/UserFotos/@item.Imagen" class="img-thumbnail" id="userImage" asp-append-version="true" />
+                        }
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.Contacto.Email)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Contacto.CódigoArea)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Contacto.NúmeroTeléfono)</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="pagination-pagedListContainer">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions
+       {
+           UlElementClasses = new[] { "pagination", "justify-content-center" },
+           LiElementClasses = new[] { "page-item" },
+           PageClasses = new[] { "page-link" },
+           ActiveLiElementClass = "active",
+           LinkToPreviousPageFormat = "Anterior",
+           LinkToNextPageFormat = "Siguiente",
+           LinkToFirstPageFormat = "Primera",
+           LinkToLastPageFormat = "Última"
+       })
+    </div>
+</div>
+
+<style>
+    #userImage {
+        max-width: 100px;
+        max-height: 100px;
+    }
+
+    #iptUserSearh {
+        height: 30px;
+        width: 250px;
+        border: 1px solid;
+        border-color: black;
+        box-shadow: 2px 4px 6px lightgrey;
+        transition: box-shadow 0.3s ease;
+    }
+
+        #iptUserSearh:hover {
+            box-shadow: 4px 6px 8px grey;
+        }
+
+    .btnBusqueda {
+        border: 1px solid;
+        border-color: black;
+        color: black;
+        background-color: gold;
+        border-radius: 10px;
+        box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3); /* Sombra del botón */
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .btnBusqueda:hover {
+            border: 1px solid;
+            border-color: gold;
+            color: gold;
+            background-color: black;
+            cursor: pointer;
+            box-shadow: 4px 6px 8px rgba(0, 0, 0, 0.5); /* Sombra más intensa al pasar el cursor */
+        }
+</style>

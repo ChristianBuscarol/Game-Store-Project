@@ -1,0 +1,67 @@
+﻿@model Videogames_Store.Models.Usuario
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Usuario</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Apellido" class="control-label"></label>
+                <input asp-for="Apellido" class="form-control" />
+                <span asp-validation-for="Apellido" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Dni" class="control-label"></label>
+                <input asp-for="Dni" class="form-control" />
+                <span asp-validation-for="Dni" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="hidden" value="@Model.Imagen"/>
+                <img src="@(!string.IsNullOrEmpty(Model.Imagen) ? "/UserFotos/" + Model.Imagen : "")" class="img-thumbnail" asp-append-version="true" id="imagen"/>
+                <br/>
+                <label class="control-label">Sleccione una imagen: </label>
+                <input asp-for="Imagen" type="file" name="imageSelected" id="imageSelected" accept="image/*" />
+            </div>
+            <input type="hidden" asp-for="Imagen" />
+            <div class="form-group">
+                <label asp-for="ContactoId" class="control-label"></label>
+                <select asp-for="ContactoId" class="form-control" asp-items="ViewBag.ContactoId"></select>
+                <span asp-validation-for="ContactoId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="~/js//preview.js"></script>
+
+<style>
+    #imagen {
+        max-width: 100px;
+        max-height: 100px;
+    }
+</style>
