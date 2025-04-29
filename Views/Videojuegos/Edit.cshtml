@@ -21,10 +21,10 @@
             <div class="form-group">
                 @if (!string.IsNullOrEmpty(@Model.Imagen))
                 {
-                    <img src="~/GamesImages/@Model.Imagen" class="img-thumbnail" asp-append-version="true" id="gameLogo" />
+                    <img src="~/GamesImages/@Model.Imagen" class="img-thumbnail" asp-append-version="true" id="imagen" />
                 }
                 <label class="control-label">Sleccione una imagen: </label>
-                <input asp-for="Imagen" type="file" name="gameImage" id="gameImage" accept="image/*" />
+                <input asp-for="Imagen" type="file" name="imageSelected" id="imageSelected" accept="image/*" />
             </div>
             <div class="form-group">
                 <label asp-for="Descripción" class="control-label"></label>
@@ -61,8 +61,11 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="~/js//preview.js"></script>
+
 <style>
-    #gameLogo {
+    #imagen {
         max-width: 100px;
         max-height: 100px;
     }

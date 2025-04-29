@@ -18,8 +18,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\Identity\Pages\Account\" />
+    <Folder Include="Views\ImportarVideojuegos\" />
     <Folder Include="wwwroot\GamesImages\" />
-    <Folder Include="wwwroot\Importaciones\" />
+    <Folder Include="wwwroot\ImportacionUsuarios\" />
+    <Folder Include="wwwroot\ImportacionVideojuegos\" />
   </ItemGroup>
 
 </Project>

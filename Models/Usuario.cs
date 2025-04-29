@@ -13,15 +13,17 @@ namespace Videogames_Store.Models
         [Required]
         public string Nombre { get; set; }
 
+        [Required]
         public string Apellido { get; set; }
 
-        public int Dni { get; set; }
+        [Required]
+        public string Email { get; set; }
 
         [Display(Name = "Fotografía del usuario")]
         public string Imagen { get; set; }
 
-        public int? ContactoId { get; set; }
+        public int? ResidenciaId { get; set; }
 
-        public Contacto? Contacto { get; set; }
+        public Residencia? Residencia { get; set; }
     }
 }

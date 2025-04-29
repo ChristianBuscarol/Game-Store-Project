@@ -45,11 +45,22 @@ namespace Videogames_Store.Controllers
                 }
                 else if (userAtributeSelection == 3)
                 {
-                    usuarios = usuarios.Where(s => s.Dni.ToString().Contains(userSearch));
+                    usuarios = usuarios.Where(s => s.Email.Contains(userSearch));
+                }
+                else if (userAtributeSelection == 4)
+                {
+                    usuarios = usuarios.Where(s => s.Residencia.NombreCiudad.Contains(userSearch));
+                }
+                else if (userAtributeSelection == 5)
+                {
+                    usuarios = usuarios.Where(s => s.Residencia.NombreProvincia.Contains(userSearch));
                 }
             }
 
-            var usuariosSeleccionadosPaginado = usuarios.OrderByDescending(p => p.Id).ToPagedList(pageNumber, pageSize);
+            var usuariosSeleccionadosPaginado = usuarios
+                .Include(p => p.Residencia)
+                .OrderByDescending(p => p.Id)
+                .ToPagedList(pageNumber, pageSize);
             //var applicationDbContext = _context.Usuarios.Include(u => u.Contacto);
             //return View(await applicationDbContext.ToListAsync());
             //await usuarios.ToListAsync()
@@ -97,7 +108,7 @@ namespace Videogames_Store.Controllers
                                 {
                                     Nombre = data[0].Trim(),
                                     Apellido = data[1].Trim(),
-                                    Dni = int.Parse(data[2].Trim()),
+                                    Email = data[2].Trim(),
                                     Imagen = data[3].Trim()
                                 };
                                 usuariosArch.Add(newUsuario);
@@ -129,7 +140,6 @@ namespace Videogames_Store.Controllers
             }
 
             var usuario = await _context.Usuarios
-                .Include(u => u.Contacto)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (usuario == null)
             {
@@ -142,7 +152,8 @@ namespace Videogames_Store.Controllers
         // GET: Usuarios/Create
         public IActionResult Create()
         {
-            ViewData["ContactoId"] = new SelectList(_context.Contactos, "Id", "Id");
+            ViewBag.Residencias = new SelectList(_context.Residencias, "Id", "NombreCiudad");
+            ViewData["ResidenciaId"] = new SelectList(_context.Residencias, "Id", "NombreProvincia");
             return View();
         }
 
@@ -151,11 +162,13 @@ namespace Videogames_Store.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido,Dni,Imagen,ContactoId")] Usuario usuario)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido,Email,Imagen,ResidenciaId")] Usuario usuario)
         {
             if (ModelState.IsValid)
             {
                 var archivo = HttpContext.Request.Form.Files;
+
+                // La siguiente funcionalidad evalúa el ingreso de archivos del usuario para guardarlo como fotografías del mismo en la base de datos.
                 if(archivo != null && archivo.Count > 0)
                 {
                     var userFoto = archivo[0];
@@ -179,7 +192,10 @@ namespace Videogames_Store.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ContactoId"] = new SelectList(_context.Contactos, "Id", "Id", usuario.ContactoId);
+
+            // Esta linea de código es para incluir la selección del nombre de las ciudades en la creación de un nuevo usuario.
+            ViewBag.Residencias = new SelectList(_context.Residencias, "Id", "NombreCiudad");
+            ViewData["ResidenciaId"] = new SelectList(_context.Residencias, "Id", "Id", usuario.ResidenciaId);
             return View(usuario);
         }
 
@@ -196,7 +212,9 @@ namespace Videogames_Store.Controllers
             {
                 return NotFound();
             }
-            ViewData["ContactoId"] = new SelectList(_context.Contactos, "Id", "Id", usuario.ContactoId);
+
+            ViewBag.Residencias = new SelectList(_context.Residencias, "Id", "NombreCiudad");
+            ViewData["ResidenciaId"] = new SelectList(_context.Residencias, "Id", "Id", usuario.ResidenciaId);
             return View(usuario);
         }
 
@@ -205,7 +223,7 @@ namespace Videogames_Store.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,Dni,Imagen,ContactoId")] Usuario usuario)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,Email,Imagen,ResidenciaId")] Usuario usuario)
         {
             if (id != usuario.Id)
             {
@@ -261,7 +279,9 @@ namespace Videogames_Store.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ContactoId"] = new SelectList(_context.Contactos, "Id", "Id", usuario.ContactoId);
+
+            ViewBag.Residencias = new SelectList(_context.Residencias, "Id", "NombreCiudad");
+            ViewData["ResidenciaId"] = new SelectList(_context.Residencias, "Id", "Id", usuario.ResidenciaId);
             return View(usuario);
         }
 
@@ -274,7 +294,6 @@ namespace Videogames_Store.Controllers
             }
 
             var usuario = await _context.Usuarios
-                .Include(u => u.Contacto)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (usuario == null)
             {

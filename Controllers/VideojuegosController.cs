@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Videogames_Store.Data;
 using Videogames_Store.Models;
+using X.PagedList;
 
 namespace Videogames_Store.Controllers
 {
@@ -23,10 +25,38 @@ namespace Videogames_Store.Controllers
         }
 
         // GET: Videojuegos
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string videoGameSearch, int videogamesAtributeSelection, int? page)
         {
-            var applicationDbContext = _context.Videojuegos.Include(v => v.Categoria);
-            return View(await applicationDbContext.ToListAsync());
+            int pageSize = 5;
+            int pageNumber = page ?? 1;
+            var videojuegos = from Videojuego in _context.Videojuegos select Videojuego;
+            var categorias = from Categoria in _context.Categorias select Categoria;
+
+            if (!string.IsNullOrEmpty(videoGameSearch))
+            {
+                if (videogamesAtributeSelection == 1)
+                {
+                    videojuegos = videojuegos.Where(s => s.Nombre.Contains(videoGameSearch));
+                }
+                else if (videogamesAtributeSelection == 2)
+                {
+                    videojuegos = videojuegos.Where(s => s.Precio.ToString().Contains(videoGameSearch));
+                }
+                else if (videogamesAtributeSelection == 3)
+                {
+                    videojuegos = videojuegos.Where(s => s.AñoLanzamiento.ToString().Contains(videoGameSearch));
+                }
+                else if (videogamesAtributeSelection == 4)
+                {
+                    videojuegos = videojuegos.Where(s => s.Categoria.Nombre.Contains(videoGameSearch));
+                }
+            }
+
+            var videojuegosSeleccionadosPaginado = videojuegos
+                .Include(p => p.Categoria)
+                .OrderByDescending(p => p.Id)
+                .ToPagedList(pageNumber, pageSize);
+            return View(videojuegosSeleccionadosPaginado);
         }
 
         // GET: Videojuegos/Details/5
@@ -48,6 +78,7 @@ namespace Videogames_Store.Controllers
             return View(videojuego);
         }
 
+        [Authorize]
         // GET: Videojuegos/Create
         public IActionResult Create()
         {

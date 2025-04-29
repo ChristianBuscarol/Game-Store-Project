@@ -9,7 +9,7 @@ using Videogames_Store.Models;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 
-namespace Lab4ProyectoFinal.Controllers
+namespace Videogames_Store.Controllers
 {
     public class ImportarUsuariosController : Controller
     {
@@ -32,7 +32,7 @@ namespace Lab4ProyectoFinal.Controllers
             try
             {
                 var archivoCSV = excelImport;
-                var destinyPath = Path.Combine(env.WebRootPath, "Importaciones");
+                var destinyPath = Path.Combine(env.WebRootPath, "ImportacionUsuarios");
 
                 // Se genera un nombre ramdom de números y letras para la imagen...
                 var archivoCSVFile = Guid.NewGuid().ToString().Replace("-", "") + Path.GetExtension(archivoCSV.FileName);
@@ -56,7 +56,7 @@ namespace Lab4ProyectoFinal.Controllers
                     Usuario usuario = new Usuario();
                     usuario.Nombre = fila.Cell(1).GetString();
                     usuario.Apellido = fila.Cell(2).GetValue<string>();
-                    usuario.Dni = fila.Cell(3).GetValue<int>();
+                    usuario.Email = fila.Cell(3).GetValue<string>();
                     usuario.Imagen = fila.Cell(4).GetValue<string>();
                     usuarios.Add(usuario);
                 }

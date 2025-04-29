@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "aolZw9Xb31zg7DM7Pr3XybzvmnaNepqwtEytpvIgpsQsxv4a7KMbo7YVmRZfBMpncdLtY1Kea0k/CHZ8ENtuHw==",
+  "dgSpecHash": "gTBZZsD9kE5yLshmzVpzzntG+GVDLDaVj1qvoMLOQfNQYnyT1MTRlP1e+K+YVpxifd93wuWMntfp5sDJ7KDPIQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Christian\\Desktop\\Videogames-Store\\Videogames Store.csproj",
+  "projectFilePath": "C:\\Users\\Christian\\Desktop\\Practicas de Programación\\Laboratorio de Computación °4\\Proyecto Final\\Videogames-Store\\Videogames Store.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Christian\\.nuget\\packages\\closedxml\\0.104.2\\closedxml.0.104.2.nupkg.sha512",
     "C:\\Users\\Christian\\.nuget\\packages\\closedxml.parser\\1.2.0\\closedxml.parser.1.2.0.nupkg.sha512",

@@ -10436,11 +10436,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Christian\\Desktop\\Videogames-Store\\Videogames Store.csproj",
+      "projectUniqueName": "C:\\Users\\Christian\\Desktop\\Practicas de Programación\\Laboratorio de Computación °4\\Proyecto Final\\Videogames-Store\\Videogames Store.csproj",
       "projectName": "Videogames Store",
-      "projectPath": "C:\\Users\\Christian\\Desktop\\Videogames-Store\\Videogames Store.csproj",
+      "projectPath": "C:\\Users\\Christian\\Desktop\\Practicas de Programación\\Laboratorio de Computación °4\\Proyecto Final\\Videogames-Store\\Videogames Store.csproj",
       "packagesPath": "C:\\Users\\Christian\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Christian\\Desktop\\Videogames-Store\\obj\\",
+      "outputPath": "C:\\Users\\Christian\\Desktop\\Practicas de Programación\\Laboratorio de Computación °4\\Proyecto Final\\Videogames-Store\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",

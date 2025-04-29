@@ -234,46 +234,22 @@ namespace Videogames_Store.Data.Migrations
                     b.ToTable("Categorias");
                 });
 
-            modelBuilder.Entity("Videogames_Store.Models.Contacto", b =>
+            modelBuilder.Entity("Videogames_Store.Models.Residencia", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CódigoArea")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Email")
+                    b.Property<string>("NombreCiudad")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("NúmeroTeléfono")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Contactos");
-                });
-
-            modelBuilder.Entity("Videogames_Store.Models.Tarjeta", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Clave")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Marca")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NombreBanco")
+                    b.Property<string>("NombreProvincia")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tarjetas");
+                    b.ToTable("Residencias");
                 });
 
             modelBuilder.Entity("Videogames_Store.Models.Usuario", b =>
@@ -284,13 +260,11 @@ namespace Videogames_Store.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Apellido")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ContactoId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Dni")
-                        .HasColumnType("int");
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Imagen")
                         .HasColumnType("nvarchar(max)");
@@ -299,49 +273,14 @@ namespace Videogames_Store.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TarjetaId")
+                    b.Property<int?>("ResidenciaId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ContactoId");
-
-                    b.HasIndex("TarjetaId");
+                    b.HasIndex("ResidenciaId");
 
                     b.ToTable("Usuarios");
-                });
-
-            modelBuilder.Entity("Videogames_Store.Models.UsuarioContacto", b =>
-                {
-                    b.Property<int>("UsuarioId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DomicilioId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ContactoId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UsuarioId", "DomicilioId");
-
-                    b.HasIndex("ContactoId");
-
-                    b.ToTable("UsuariosContactos");
-                });
-
-            modelBuilder.Entity("Videogames_Store.Models.UsuarioTarjeta", b =>
-                {
-                    b.Property<int>("UsuarioId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TarjetaId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UsuarioId", "TarjetaId");
-
-                    b.HasIndex("TarjetaId");
-
-                    b.ToTable("UsuariosTarjetas");
                 });
 
             modelBuilder.Entity("Videogames_Store.Models.Videojuego", b =>
@@ -430,51 +369,11 @@ namespace Videogames_Store.Data.Migrations
 
             modelBuilder.Entity("Videogames_Store.Models.Usuario", b =>
                 {
-                    b.HasOne("Videogames_Store.Models.Contacto", "Contacto")
-                        .WithMany("Usuarios")
-                        .HasForeignKey("ContactoId");
-
-                    b.HasOne("Videogames_Store.Models.Tarjeta", null)
-                        .WithMany("Usuarios")
-                        .HasForeignKey("TarjetaId");
-
-                    b.Navigation("Contacto");
-                });
-
-            modelBuilder.Entity("Videogames_Store.Models.UsuarioContacto", b =>
-                {
-                    b.HasOne("Videogames_Store.Models.Contacto", "Contacto")
+                    b.HasOne("Videogames_Store.Models.Residencia", "Residencia")
                         .WithMany()
-                        .HasForeignKey("ContactoId");
+                        .HasForeignKey("ResidenciaId");
 
-                    b.HasOne("Videogames_Store.Models.Usuario", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Contacto");
-
-                    b.Navigation("Usuario");
-                });
-
-            modelBuilder.Entity("Videogames_Store.Models.UsuarioTarjeta", b =>
-                {
-                    b.HasOne("Videogames_Store.Models.Tarjeta", "Tarjeta")
-                        .WithMany()
-                        .HasForeignKey("TarjetaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Videogames_Store.Models.Usuario", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Tarjeta");
-
-                    b.Navigation("Usuario");
+                    b.Navigation("Residencia");
                 });
 
             modelBuilder.Entity("Videogames_Store.Models.Videojuego", b =>
@@ -486,16 +385,6 @@ namespace Videogames_Store.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Categoria");
-                });
-
-            modelBuilder.Entity("Videogames_Store.Models.Contacto", b =>
-                {
-                    b.Navigation("Usuarios");
-                });
-
-            modelBuilder.Entity("Videogames_Store.Models.Tarjeta", b =>
-                {
-                    b.Navigation("Usuarios");
                 });
 #pragma warning restore 612, 618
         }

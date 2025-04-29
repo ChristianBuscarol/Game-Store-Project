@@ -1,54 +1,106 @@
-﻿@model IEnumerable<Videogames_Store.Models.Videojuego>
+﻿@model X.PagedList.IPagedList<Videogames_Store.Models.Videojuego>
+@using X.PagedList.Mvc.Core
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<div class="pagedListContainer">
+    <h1>Listado de Viedojuegos...</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>@Html.DisplayNameFor(model => model.Nombre)</th>
-            <th>@Html.DisplayNameFor(model => model.Imagen)</th>
-            <th>@Html.DisplayNameFor(model => model.Descripción)</th>
-            <th>@Html.DisplayNameFor(model => model.Precio)</th>
-            <th>@Html.DisplayNameFor(model => model.AñoLanzamiento)</th>
-            <th>@Html.DisplayNameFor(model => model.Categoria)</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
-            <td>
-                @*@Html.DisplayFor(modelItem => item.Imagen)*@
-                @if(!string.IsNullOrEmpty(item.Imagen))
-                {
-                    <img src="~/GamesImages/@item.Imagen" class="img-thumbnail" id="gameImage" asp-append-version="true"/>
-                }
-            </td>
-            <td>@Html.DisplayFor(modelItem => item.Descripción)</td>
-            <td>@Html.DisplayFor(modelItem => item.Precio)</td>
-            <td>@Html.DisplayFor(modelItem => item.AñoLanzamiento)</td>
-            <td>@Html.DisplayFor(modelItem => item.Categoria.Nombre)</td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <form asp-controller="Videojuegos" asp-action="Index" method="get">
+        <input type="text" name="videoGameSearch" placeholder="Ingrese 'Dato' del videojuego..." />
+        <label for="videogamesAtributeSelection">
+            Elija atributo para buscar:
+            <select name="videogamesAtributeSelection">
+                <option value="1" selected>Título</option>
+                <option value="2">Precio</option>
+                <option value="3">Año de lanzamiento</option>
+                <option value="4">Categoría</option>
+            </select>
+        </label>
+        <button type="submit" value="busqueda" class="btnBusqueda">Buscar...</button>
+    </form>
+
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Imagen</th>
+                <th>Descripción</th>
+                <th>Precio (ARS)</th>
+                <th>Año de lanzamiento</th>
+                <th>Categoria</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
+                    <td>
+                        @*@Html.DisplayFor(modelItem => item.Imagen)*@
+                        @if (!string.IsNullOrEmpty(item.Imagen))
+                        {
+                            <img src="~/GamesImages/@item.Imagen" class="img-thumbnail" id="gameImage" asp-append-version="true" />
+                        }
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.Descripción)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Precio)</td>
+                    <td>@Html.DisplayFor(modelItem => item.AñoLanzamiento)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Categoria.Nombre)</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="pagination-pagedListContainer">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions
+       {
+           UlElementClasses = new[] { "pagination", "justify-content-center" },
+           LiElementClasses = new[] { "page-item" },
+           PageClasses = new[] { "page-link" },
+           ActiveLiElementClass = "active",
+           LinkToPreviousPageFormat = "Anterior",
+           LinkToNextPageFormat = "Siguiente",
+           LinkToFirstPageFormat = "Primera",
+           LinkToLastPageFormat = "Última"
+       })
+    </div>
+</div>
 
 <style>
     #gameImage {
         max-width: 150px;
         max-height: 150px;
+    }
+
+    .btnBusqueda {
+        width: 75px;
+        height: 40px;
+        border: 1px solid;
+        border-color: gold;
+        color: gold;
+        background-color: black;
+        border-radius: 10px;
+        box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3); /* Sombra del botón */
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .btnBusqueda:hover {
+        border: 1px solid;
+        border-color: black;
+        color: black;
+        background-color: gold;
+        cursor: pointer;
+        box-shadow: 4px 6px 8px rgba(0, 0, 0, 0.5); /* Sombra más intensa al pasar el cursor */
     }
 </style>

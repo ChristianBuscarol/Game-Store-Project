@@ -3,12 +3,12 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Videogames_Store</title>
+    <title>@ViewData["Title"] - Videogames Store</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
-    <header>
+    <header class="headerBox">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Videogames_Store</a>
@@ -19,19 +19,22 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index"><strong>Home</strong></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Index">Usuarios</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Index"><strong>Usuarios</strong></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Videojuegos" asp-action="Index">Videojuegos</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Videojuegos" asp-action="Index"><strong>Videojuegos</strong></a>
                         </li>
                         <li>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ImportarUsuarios" asp-action="Index">Importación de usuarios con Excel</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="ImportarUsuarios" asp-action="Index"><strong>Importar usuarios</strong></a>
+                        </li>
+                        <li>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="ImportarVideojuegos" asp-action="Index"><strong>Importar Videojuegos</strong></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Políticas del sitio.</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy"><strong>Políticas del sitio</strong></a>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />
@@ -56,3 +59,11 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+<style>
+    .headerBox {
+        background-color: lightskyblue;
+        padding: 5px;
+        margin: 5px;
+    }
+</style>

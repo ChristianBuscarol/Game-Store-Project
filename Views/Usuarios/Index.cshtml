@@ -14,7 +14,9 @@
             <select name="userAtributeSelection">
                 <option value=1 selected>Nombre</option>
                 <option value=2>Apellido</option>
-                <option value=3>Dni</option>
+                <option value=3>Email</option>
+                <option value=4>Ciudad</option>
+                <option value=5>Provincia</option>
             </select>
         </label>
         <button type="submit" value="Busqueda" class="btnBusqueda">Buscar...</button>
@@ -28,11 +30,10 @@
             <tr>
                 <th>Nombre:</th>
                 <th>Apellido:</th>
-                <th>Dni:</th>
-                <th>Imagen:</th>
                 <th>Email:</th>
-                <th>Código de area:</th>
-                <th>Núemro de telefono:</th>
+                <th>Imagen:</th>
+                <th>Ciudad:</th>
+                <th>Provincia:</th>
             </tr>
         </thead>
         <tbody>
@@ -41,16 +42,15 @@
                 <tr>
                     <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
                     <td>@Html.DisplayFor(modelItem => item.Apellido)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Dni)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Email)</td>
                     <td>
                         @if (!string.IsNullOrEmpty(item.Imagen))
                         {
                             <img src="~/UserFotos/@item.Imagen" class="img-thumbnail" id="userImage" asp-append-version="true" />
                         }
                     </td>
-                    <td>@Html.DisplayFor(modelItem => item.Contacto.Email)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Contacto.CódigoArea)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Contacto.NúmeroTeléfono)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Residencia.NombreCiudad)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Residencia.NombreProvincia)</td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                         <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
@@ -90,9 +90,9 @@
         transition: box-shadow 0.3s ease;
     }
 
-        #iptUserSearh:hover {
-            box-shadow: 4px 6px 8px grey;
-        }
+    #iptUserSearh:hover {
+        box-shadow: 4px 6px 8px grey;
+    }
 
     .btnBusqueda {
         border: 1px solid;
@@ -104,12 +104,12 @@
         transition: background-color 0.3s ease, box-shadow 0.3s ease;
     }
 
-        .btnBusqueda:hover {
-            border: 1px solid;
-            border-color: gold;
-            color: gold;
-            background-color: black;
-            cursor: pointer;
-            box-shadow: 4px 6px 8px rgba(0, 0, 0, 0.5); /* Sombra más intensa al pasar el cursor */
-        }
+    .btnBusqueda:hover {
+        border: 1px solid;
+        border-color: gold;
+        color: gold;
+        background-color: black;
+        cursor: pointer;
+        box-shadow: 4px 6px 8px rgba(0, 0, 0, 0.5); /* Sombra más intensa al pasar el cursor */
+    }
 </style>
